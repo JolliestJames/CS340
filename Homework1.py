@@ -73,13 +73,16 @@ def CalculateAverageTransactionAmount(Database):
 
 def ChangeData(Database, Category, Old, New):
 
+	Count = 0
+
 	OldForCompare = Old.lower()
 
 	for i in range(0, len(Database)):
 		if OldForCompare in Database[i].Attributes[Category].lower():
 			Database[i].Attributes[Category] = New
+			Count += 1
 
-	return Database
+	return Database, Count
 	
 def CreateNewDatabaseFile(Database, Keys, FileToWrite):
 
@@ -118,9 +121,10 @@ AverageTransactionAmount = CalculateAverageTransactionAmount(Database1)
 print "The average transaction amount is " + str(AverageTransactionAmount) + ".\n"
 
 #Step4
-Database1 = ChangeData(Database1, 'Country', 'United States', 'USA')
+Database1, Count = ChangeData(Database1, 'Country', 'United States', 'USA')
 CreateNewDatabaseFile(Database1, Keys, 'NewDatabase1.csv')
 print "Every instance of United States has been replaced with USA and written to NewDatabase1.csv\n"
+print "There were " + str(Count) + " instances of United States that have been replaced with USA.\n"
 
 #Step5
 Database2, Keys = ProcessFlatFile('cs162hw01salesData02.csv')
@@ -133,10 +137,10 @@ print "\nThere are " + str(NumberOfAmandas) + " Amandas.\n"
 AverageTransactionAmount = CalculateAverageTransactionAmount(Database2)
 print "The average transaction amount is " + str(AverageTransactionAmount) + ".\n"
 
-Database2 = ChangeData(Database2, 'Country', 'United States', 'USA')
+Database2, Count = ChangeData(Database2, 'Country', 'United States', 'USA')
 CreateNewDatabaseFile(Database2, Keys, 'NewDatabase2.csv')
-print "Every instance of United States has been replaced with USA and written to NewDatabase2.csv\n"
-
+print "Every instance of United States has been replaced with USA and written to NewDatabase2.csv"
+print "There were " + str(Count) + " instances of United States that have been replaced with USA.\n"
 
 
 
